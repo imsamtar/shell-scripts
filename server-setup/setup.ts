@@ -54,16 +54,8 @@ async function installPackages() {
         console.log(`Failed to install docker`);
     }
 
-    await installOhMyZsh(Bun.env.USER || 'root');
-}
-
-async function installOhMyZsh(username: string) {
     try {
-        let prepend = '';
-        if (Bun.env.USER !== username) {
-            prepend = `USER=${username} sudo -u ${username} `;
-        }
-        await $`${prepend}sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" -- --unattended`;
+        await $`sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" -- --unattended`.quiet();
     } catch (e) {
         console.log(`Failed to install ohmyzsh`);
     }
@@ -98,6 +90,14 @@ async function addNewUser() {
 
     await $`useradd -m -G sudo,docker -s /usr/bin/zsh ${username}`;
     await $`echo "${username}:${username}" | sudo chpasswd`;
+
+    try {
+        $`ln -s /home/${username}/.oh-my-zsh /root/.oh-my-zsh`;
+        $`ln -s /home/${username}/.zshrc /root/.zshrc`;
+    } catch (e) {
+        console.log((<Error>e).message);
+    }
+
     return username;
 }
 
@@ -124,7 +124,6 @@ async function main() {
     if (username) {
         console.log('\nAdding ssh public keys to authorized list...');
         await addSshKeys(username);
-        await installOhMyZsh(username);
     }
 
     if (username) {
