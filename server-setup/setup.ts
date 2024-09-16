@@ -37,6 +37,8 @@ async function installPackages() {
         'python3-certbot-dns-cloudflare',
         'autojump',
         'zsh',
+        'rustc',
+        'golang',
         'nmap',
         'ffmpeg',
     ];
