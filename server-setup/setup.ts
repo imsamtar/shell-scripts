@@ -56,6 +56,7 @@ async function installPackages() {
 
     try {
         await $`sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" -- --unattended`.quiet();
+        await $`sed -i '/ZSH_THEME="robbyrussell"/c\ZSH_THEME="clean"' $HOME/.zshrc`;
     } catch (e) {
         console.log(`Failed to install ohmyzsh`);
     }
