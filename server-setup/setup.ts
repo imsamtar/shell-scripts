@@ -59,10 +59,15 @@ async function installPackages() {
         // await $`sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" -- --unattended`.quiet();
         // await $`sed -i '/ZSH_THEME="robbyrussell"/c\ZSH_THEME="clean"' $HOME/.zshrc`;
         await $`curl -L git.io/antigen > antigen.zsh`;
-        fs.writeFileSync('/root/.zshrc', `source $HOME/antigen.zsh
+        fs.writeFileSync(
+            '/root/.zshrc', `source $HOME/antigen.zsh
 
 # Load the oh-my-zsh's library.
 antigen use oh-my-zsh
+
+# Syntax highlighting bundle.
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zsh-users/zsh-syntax-highlighting
 
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
 antigen bundle git
@@ -73,19 +78,16 @@ antigen bundle node
 antigen bundle npm
 antigen bundle yarn
 antigen bundle flutter
-antigen bundle docker
 antigen bundle aliases
 antigen bundle macos
 
-# Syntax highlighting bundle.
-antigen bundle zsh-users/zsh-autosuggestions
-antigen bundle zsh-users/zsh-syntax-highlighting
-
 # Load the theme.
-antigen theme robbyrussell
+antigen theme clean
 
 # Tell Antigen that you're done.
-antigen apply`);
+antigen apply
+`
+        );
     } catch (e) {
         console.log(`Failed to install ohmyzsh`);
     }
@@ -126,8 +128,6 @@ async function addNewUser() {
         await $`chown -R ${username}:${username} /home/${username}/.zshrc`;
         await $`cp -r /root/antigen.zsh /home/${username}/antigen.zsh`;
         await $`chown -R ${username}:${username} /home/${username}/antigen.zsh`;
-        // await $`cp -r /root/.oh-my-zsh /home/${username}/.oh-my-zsh`
-        // await $`chown -R ${username}:${username} /home/${username}/.oh-my-zsh`;
     } catch (e) {
         console.log((<Error>e).message);
     }
