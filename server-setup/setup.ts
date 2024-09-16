@@ -36,7 +36,7 @@ async function installPackages() {
         'certbot',
         'python3-certbot-dns-cloudflare',
         'autojump',
-        'fish',
+        'zsh',
         'nmap',
     ];
     for (const pkg of packages) {
@@ -52,6 +52,12 @@ async function installPackages() {
         }
     } catch (e) {
         console.log(`Failed to install docker`);
+    }
+
+    try {
+        await $`sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`;
+    } catch (e) {
+        console.log(`Failed to install ohmyzsh`);
     }
 }
 
@@ -72,7 +78,7 @@ async function systemConfig() {
     const resp = await $`systemctl is-active fail2ban`.quiet();
     console.log('Fail2ban:', resp.text().trim());
 
-    await $`chsh -s /usr/bin/fish`;
+    await $`chsh -s /usr/bin/zsh`;
     await $`timedatectl set-timezone America/Phoenix`;
 }
 
@@ -82,7 +88,7 @@ async function addNewUser() {
         username = await ask('Username:') ?? '';
     }
 
-    await $`useradd -m -G sudo,docker -s /usr/bin/fish ${username}`;
+    await $`useradd -m -G sudo,docker -s /usr/bin/zsh ${username}`;
     await $`echo "${username}:${username}" | sudo chpasswd`;
     return username;
 }
