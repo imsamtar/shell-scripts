@@ -1,5 +1,6 @@
 #!/bin/bash
 
+sudo apt-get install unzip
 curl -fsSL https://bun.sh/install | bash
 curl -fsSL -o server-setup.ts https://raw.githubusercontent.com/imsamtar/shell-scripts/main/server-setup/setup.ts
 
