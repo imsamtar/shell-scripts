@@ -59,7 +59,7 @@ async function installPackages() {
         // await $`sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" -- --unattended`.quiet();
         // await $`sed -i '/ZSH_THEME="robbyrussell"/c\ZSH_THEME="clean"' $HOME/.zshrc`;
         await $`curl -L git.io/antigen > antigen.zsh`;
-        fs.writeFileSync('/root/.zshrc', `source /root/antigen.zsh
+        fs.writeFileSync('/root/.zshrc', `source $HOME/antigen.zsh
 
 # Load the oh-my-zsh's library.
 antigen use oh-my-zsh
@@ -124,8 +124,10 @@ async function addNewUser() {
     try {
         await $`cp -r /root/.zshrc /home/${username}/.zshrc`;
         await $`chown -R ${username}:${username} /home/${username}/.zshrc`;
-        await $`cp -r /root/.oh-my-zsh /home/${username}/.oh-my-zsh`
-        await $`chown -R ${username}:${username} /home/${username}/.oh-my-zsh`;
+        await $`cp -r /root/antigen.zsh /home/${username}/antigen.zsh`;
+        await $`chown -R ${username}:${username} /home/${username}/antigen.zsh`;
+        // await $`cp -r /root/.oh-my-zsh /home/${username}/.oh-my-zsh`
+        // await $`chown -R ${username}:${username} /home/${username}/.oh-my-zsh`;
     } catch (e) {
         console.log((<Error>e).message);
     }
