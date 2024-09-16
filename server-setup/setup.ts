@@ -55,7 +55,7 @@ async function installPackages() {
     }
 
     try {
-        await $`sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`;
+        await $`sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended`;
     } catch (e) {
         console.log(`Failed to install ohmyzsh`);
     }
