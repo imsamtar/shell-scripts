@@ -38,6 +38,7 @@ async function installPackages() {
         'autojump',
         'zsh',
         'nmap',
+        'ffmpeg',
     ];
     for (const pkg of packages) {
         try {
@@ -55,8 +56,36 @@ async function installPackages() {
     }
 
     try {
-        await $`sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" -- --unattended`.quiet();
-        await $`sed -i '/ZSH_THEME="robbyrussell"/c\ZSH_THEME="clean"' $HOME/.zshrc`;
+        // await $`sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" -- --unattended`.quiet();
+        // await $`sed -i '/ZSH_THEME="robbyrussell"/c\ZSH_THEME="clean"' $HOME/.zshrc`;
+        await $`curl -L git.io/antigen > antigen.zsh`;
+        fs.writeFileSync('~/.zshrc', `source /path-to-antigen/antigen.zsh
+
+# Load the oh-my-zsh's library.
+antigen use oh-my-zsh
+
+# Bundles from the default repo (robbyrussell's oh-my-zsh).
+antigen bundle git
+antigen bundle brew
+antigen bundle pip
+antigen bundle bun
+antigen bundle node
+antigen bundle npm
+antigen bundle yarn
+antigen bundle flutter
+antigen bundle docker
+antigen bundle aliases
+antigen bundle macos
+
+# Syntax highlighting bundle.
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zsh-users/zsh-syntax-highlighting
+
+# Load the theme.
+antigen theme robbyrussell
+
+# Tell Antigen that you're done.
+antigen apply`);
     } catch (e) {
         console.log(`Failed to install ohmyzsh`);
     }
