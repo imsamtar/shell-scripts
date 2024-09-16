@@ -92,8 +92,8 @@ async function addNewUser() {
     await $`echo "${username}:${username}" | sudo chpasswd`;
 
     try {
-        $`ln -s /home/${username}/.oh-my-zsh /root/.oh-my-zsh`;
-        $`ln -s /home/${username}/.zshrc /root/.zshrc`;
+        $`ln -s /root/.oh-my-zsh /home/${username}/.oh-my-zsh`;
+        $`ln -s /root/.zshrc /home/${username}/.zshrc`;
     } catch (e) {
         console.log((<Error>e).message);
     }
