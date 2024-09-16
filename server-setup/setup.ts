@@ -63,7 +63,7 @@ async function installOhMyZsh(username: string) {
         if (Bun.env.USER !== username) {
             prepend = `USER=${username} sudo -u ${username} `;
         }
-        await $`${prepend}sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended`;
+        await $`${prepend}sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" -- --unattended`;
     } catch (e) {
         console.log(`Failed to install ohmyzsh`);
     }
