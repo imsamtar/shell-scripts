@@ -59,7 +59,7 @@ async function installPackages() {
         // await $`sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" -- --unattended`.quiet();
         // await $`sed -i '/ZSH_THEME="robbyrussell"/c\ZSH_THEME="clean"' $HOME/.zshrc`;
         await $`curl -L git.io/antigen > antigen.zsh`;
-        fs.writeFileSync('~/.zshrc', `source /path-to-antigen/antigen.zsh
+        fs.writeFileSync('/root/.zshrc', `source /root/antigen.zsh
 
 # Load the oh-my-zsh's library.
 antigen use oh-my-zsh
