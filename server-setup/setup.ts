@@ -48,23 +48,21 @@ async function installPackages() {
     ];
     for (const pkg of packages) {
         try {
-            await $`apt-get -y -qq install ${pkg}`;
+            await $`apt-get -y -qq install ${pkg}`.quiet();
         } catch (e) {
             console.log(`Failed to install ${pkg}`);
         }
     }
     try {
         if (!Bun.which('docker')) {
-            await $`curl -fsSL https://get.docker.com | bash`;
+            await $`curl -fsSL https://get.docker.com | bash`.quiet();
         }
     } catch (e) {
         console.log(`Failed to install docker`);
     }
 
     try {
-        // await $`sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" -- --unattended`.quiet();
-        // await $`sed -i '/ZSH_THEME="robbyrussell"/c\ZSH_THEME="clean"' $HOME/.zshrc`;
-        await $`curl -L git.io/antigen > .antigen.zsh`;
+        await $`curl -L git.io/antigen > .antigen.zsh`.quiet();
         fs.writeFileSync(
             '/root/.zshrc', `
 source $HOME/.antigen.zsh
