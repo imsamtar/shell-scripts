@@ -175,7 +175,8 @@ async function main() {
     }
 
     if (username) {
-        logGreen(`All Done! Make sure to update password for ${username}`, '\n');
+        console.log();
+        logGreen(`All Done! Make sure to update password for ${username}`);
     }
 }
 
