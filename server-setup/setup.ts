@@ -143,11 +143,7 @@ async function addNewUser() {
         await $`chown -R ${username}:${username} /home/${username}/.zshrc`;
         await $`cp -r /root/.antigen.zsh /home/${username}/.antigen.zsh`;
         await $`chown -R ${username}:${username} /home/${username}/.antigen.zsh`;
-        await $.cwd(`/home/${username}`).env({
-            HOME: `/home/${username}`,
-            BUN_INSTALL: `/home/${username}`,
-            USER: username,
-        })`su - ${username} -c "curl -fsSL https://bun.sh/install | bash"`;
+        await $`su - ${username} -c "curl -fsSL https://bun.sh/install | bash"`.quiet();
     } catch (e) {
         console.log((<Error>e).message);
     }
