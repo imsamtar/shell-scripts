@@ -74,17 +74,11 @@ antigen use oh-my-zsh
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle zsh-users/zsh-syntax-highlighting
 
-# Bundles from the default repo (robbyrussell's oh-my-zsh).
+# Bundles from the default repo
 antigen bundle git
 antigen bundle brew
 antigen bundle pip
-antigen bundle bun
-antigen bundle node
-antigen bundle npm
-antigen bundle yarn
-antigen bundle flutter
 antigen bundle aliases
-antigen bundle macos
 
 # Load the theme.
 antigen theme clean
