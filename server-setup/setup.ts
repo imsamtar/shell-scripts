@@ -147,7 +147,7 @@ async function addNewUser() {
             HOME: `/home/${username}`,
             BUN_INSTALL: `/home/${username}`,
             USER: username,
-        })`sudo -H -u ${username} curl -fsSL https://bun.sh/install | bash`;
+        })`su - ${username} -c "curl -fsSL https://bun.sh/install | bash"`;
     } catch (e) {
         console.log((<Error>e).message);
     }
