@@ -121,9 +121,12 @@ async function systemConfig() {
     await $`sed -i '/bantime  = 10m/c\bantime  = 60m' /etc/fail2ban/jail.local`;
     await $`sed -i '/findtime  = 10m/c\findtime  = 60m' /etc/fail2ban/jail.local`;
     await $`sed -i '/maxretry = 5/c\maxretry = 3' /etc/fail2ban/jail.local`;
+    await $`systemctl restart ssh`;
     await $`systemctl restart fail2ban`;
-    const resp = await $`systemctl is-active fail2ban`.quiet();
-    logGreen(resp.text().trim(), 'Fail2ban:');
+    const sshResp = await $`systemctl is-active ssh`.quiet();
+    const fal2banResp = await $`systemctl is-active fail2ban`.quiet();
+    logGreen(sshResp.text().trim(), 'SSH:');
+    logGreen(fal2banResp.text().trim(), 'Fail2ban:');
 
     await $`chsh -s /usr/bin/zsh`;
     await $`timedatectl set-timezone America/Phoenix`;
