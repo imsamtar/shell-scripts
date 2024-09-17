@@ -164,6 +164,7 @@ async function addSshKeys(username: string) {
         if (!sshkey.length) break;
         fs.appendFileSync(`${sshDir}/authorized_keys`, sshkey + '\n');
     }
+    $`chown -R ${username}:${username} ${sshDir}`;
 }
 
 async function main() {
