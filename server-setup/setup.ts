@@ -2,6 +2,10 @@ import { $ } from 'bun';
 import readline from 'readline';
 import fs from 'fs';
 
+function logGreen(str: string, label = '') {
+    console.log(...[label, '\x1b[32m%s\x1b[0m', str].filter(Boolean))
+}
+
 
 async function ask(question: string): Promise<string> {
     return <string>await new Promise(r => {
@@ -102,6 +106,7 @@ async function systemConfig() {
 
     await $`sed -i '/PermitRootLogin ${from}/c\PermitRootLogin ${to}' ${configPath}`;
     await $`sed -i '/PasswordAuthentication ${from}/c\PasswordAuthentication ${to}' ${configPath}`;
+    await $`sed -i '/#Port 22/c\Port 2222' ${configPath}`;
     await $`rm -rf /etc/fail2ban/jail.local`;
     await $`cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local`;
     await $`sed -i '/backend = %(sshd_backend)s/c\sshd_backend = systemd\nbackend = %(sshd_backend)s' /etc/fail2ban/jail.local`;
@@ -110,7 +115,7 @@ async function systemConfig() {
     await $`sed -i '/maxretry = 5/c\maxretry = 3' /etc/fail2ban/jail.local`;
     await $`systemctl restart fail2ban`;
     const resp = await $`systemctl is-active fail2ban`.quiet();
-    console.log('Fail2ban:', resp.text().trim());
+    logGreen(resp.text().trim(), 'Fail2ban:');
 
     await $`chsh -s /usr/bin/zsh`;
     await $`timedatectl set-timezone America/Phoenix`;
@@ -163,7 +168,7 @@ async function main() {
     }
 
     if (username) {
-        console.log(`\nAll Done! Make sure to update password for ${username}`);
+        logGreen(`All Done! Make sure to update password for ${username}`, '\n');
     }
 }
 
