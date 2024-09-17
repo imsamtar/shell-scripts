@@ -132,7 +132,7 @@ async function systemConfig() {
 async function addNewUser() {
     let username = '';
     while (!username.match(/^\w+$/)) {
-        username = await ask('Username:') ?? '';
+        username = await ask('Username: ') ?? '';
     }
 
     await $`useradd -m -G sudo,docker -s /usr/bin/zsh ${username}`;
@@ -157,7 +157,7 @@ async function addSshKeys(username: string) {
         fs.mkdirSync(sshDir);
     }
     while (true) {
-        const sshkey = await ask('Enter ssh public key:');
+        const sshkey = await ask('Enter ssh public key: ');
         if (!sshkey.length) break;
         fs.appendFileSync(`${sshDir}/authorized_keys`, sshkey + '\n');
     }
