@@ -112,7 +112,7 @@ async function systemConfig() {
 
     await $`sed -i '/PermitRootLogin ${from}/c\PermitRootLogin ${to}' ${configPath}`;
     await $`sed -i '/PasswordAuthentication ${from}/c\PasswordAuthentication ${to}' ${configPath}`;
-    await $`sed -i '/#Port 22/c\Port 2222' ${configPath}`;
+    await $`sed -i '/#Port 22/c\Port 2218' ${configPath}`;
     await $`rm -rf /etc/fail2ban/jail.local`;
     await $`cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local`;
     await $`sed -i '/backend = %(sshd_backend)s/c\sshd_backend = systemd\nbackend = %(sshd_backend)s' /etc/fail2ban/jail.local`;
