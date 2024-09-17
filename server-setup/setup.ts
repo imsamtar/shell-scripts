@@ -94,6 +94,9 @@ antigen theme clean
 # Tell Antigen that you're done.
 antigen apply
 
+# bun completions
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
 #bun
 export BUN_INSTALL="$HOME/.bun" 
 export PATH="$BUN_INSTALL/bin:$PATH"
@@ -140,7 +143,11 @@ async function addNewUser() {
         await $`chown -R ${username}:${username} /home/${username}/.zshrc`;
         await $`cp -r /root/.antigen.zsh /home/${username}/.antigen.zsh`;
         await $`chown -R ${username}:${username} /home/${username}/.antigen.zsh`;
-        await $`sudo -H -u ${username} curl -fsSL https://bun.sh/install | bash`;
+        await $.cwd(`/home/${username}`).env({
+            HOME: `/home/${username}`,
+            BUN_INSTALL: `/home/${username}`,
+            USER: username,
+        })`sudo -H -u ${username} curl -fsSL https://bun.sh/install | bash`;
     } catch (e) {
         console.log((<Error>e).message);
     }
