@@ -66,7 +66,11 @@ async function installPackages() {
         // await $`sed -i '/ZSH_THEME="robbyrussell"/c\ZSH_THEME="clean"' $HOME/.zshrc`;
         await $`curl -L git.io/antigen > .antigen.zsh`;
         fs.writeFileSync(
-            '/root/.zshrc', `source $HOME/.antigen.zsh
+            '/root/.zshrc', `
+export BUN_INSTALL="$HOME/.bun" 
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+source $HOME/.antigen.zsh
 
 # Load the oh-my-zsh's library.
 antigen use oh-my-zsh
@@ -135,6 +139,7 @@ async function addNewUser() {
         await $`chown -R ${username}:${username} /home/${username}/.zshrc`;
         await $`cp -r /root/.antigen.zsh /home/${username}/.antigen.zsh`;
         await $`chown -R ${username}:${username} /home/${username}/.antigen.zsh`;
+        await $`sudo -u ${username} curl -fsSL https://bun.sh/install | bash`;
     } catch (e) {
         console.log((<Error>e).message);
     }
