@@ -25,8 +25,8 @@ function isRoot() {
 }
 
 async function installPackages() {
-    await $`apt-get update -y -qq`;
-    await $`apt-get upgrade -y -qq`;
+    await $`apt-get update -y -qq`.quiet();
+    await $`apt-get upgrade -y -qq`.quiet();
 
     const packages = [
         'sudo',
